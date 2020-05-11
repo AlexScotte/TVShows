@@ -1,4 +1,4 @@
-package fr.alexflex.tvshows
+package fr.alexflex.tvshows.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import fr.alexflex.tvshows.R
+import fr.alexflex.tvshows.data.Show
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.cell_show.view.*
@@ -16,26 +18,25 @@ class ShowAdapter : RecyclerView.Adapter<ShowAdapter.ShowViewHolder>() {
     private val shows:RealmResults<Show>
 
     init {
-
         _realm  = Realm.getDefaultInstance()
-
         shows = loadShowFromDB()
-        if(shows.size == 0){
-
-            _realm.beginTransaction()
-            for (i in 1..100){
-
-                val show = Show()
-                show.showName = "Show ${i}"
-
-                for(j in 1..100){
-
-                    show.name = "Name ${j}"
-                    _realm.copyToRealm(show)
-                }
-            }
-            _realm.commitTransaction()
-        }
+//        if(shows.size == 0){
+//
+//            _realm.beginTransaction()
+//            for (i in 1..100){
+//
+//                val show = Show()
+//                show.showName = "Show ${i}"
+//
+//                for(j in 1..100){
+//
+//                    show.name = "Name ${j}"
+//                    _realm.copyToRealm(show)
+//                }
+//            }
+//            _realm.commitTransaction()
+        //}
+       // queryHelper.loadLatestTVShows(1)
     }
 
     private fun loadShowFromDB() : RealmResults<Show>{
@@ -89,10 +90,10 @@ class ShowAdapter : RecyclerView.Adapter<ShowAdapter.ShowViewHolder>() {
             rootView.setOnClickListener(this)
         }
 
-        fun fillItem(item:Show){
+        fun fillItem(item: Show){
 
             ui_title.text = item.name
-            ui_subtitle.text = item.showName
+
         }
 
         override fun onClick(v: View?) {
