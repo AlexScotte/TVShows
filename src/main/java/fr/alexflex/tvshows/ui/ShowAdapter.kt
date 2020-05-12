@@ -12,43 +12,26 @@ import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.cell_show.view.*
 
-class ShowAdapter : RecyclerView.Adapter<ShowAdapter.ShowViewHolder>() {
+class ShowAdapter(delegate:Delegate) : RecyclerView.Adapter<ShowAdapter.ShowViewHolder>() {
 
-    private var _realm: Realm
-    private val shows:RealmResults<Show>
-
-    init {
-        _realm  = Realm.getDefaultInstance()
-        shows = loadShowFromDB()
-//        if(shows.size == 0){
-//
-//            _realm.beginTransaction()
-//            for (i in 1..100){
-//
-//                val show = Show()
-//                show.showName = "Show ${i}"
-//
-//                for(j in 1..100){
-//
-//                    show.name = "Name ${j}"
-//                    _realm.copyToRealm(show)
-//                }
-//            }
-//            _realm.commitTransaction()
-        //}
-       // queryHelper.loadLatestTVShows(1)
+    interface Delegate{
+        fun touchedShow(show:Show, index:Int)
     }
 
-    private fun loadShowFromDB() : RealmResults<Show>{
+    private val delegate = delegate
+    private var shows:List<Show> = listOf()
 
-        return  _realm.where(Show::class.java).findAll()
+    fun reloadShowlist(list:List<Show>){
+
+        shows = list
+        notifyDataSetChanged()
     }
 
-    fun onItemClicked(index:Int, context: Context){
+    fun onItemClickedAtIndex(index:Int){
 
         val item = shows[index]
-        if(item != null)
-            Toast.makeText(context, item.name, Toast.LENGTH_SHORT).show()
+        delegate.touchedShow(item, index)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
@@ -98,7 +81,7 @@ class ShowAdapter : RecyclerView.Adapter<ShowAdapter.ShowViewHolder>() {
 
         override fun onClick(v: View?) {
         if(v != null)
-            onItemClicked(adapterPosition, v.context)
+            onItemClickedAtIndex(adapterPosition)
         }
     }
 
