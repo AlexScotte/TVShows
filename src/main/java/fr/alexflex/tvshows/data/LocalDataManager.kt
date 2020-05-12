@@ -11,7 +11,7 @@ class LocalDataManager {
 
     fun saveShowAsFavorite(show:Show){
 
-        if(isShowInFavorites(show)){
+        if(!isShowInFavorites(show)){
 
             val newFav = LocalShowFavorite()
             newFav.id = show.id

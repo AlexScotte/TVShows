@@ -5,4 +5,5 @@
     <string name="toolbar_seach_text">Rechercher ...</string>
     <string name="my_shows_title">Mes favoris</string>
     <string name="popular_shows_title">Séries populaires</string>
+    <string name="details_remove_favorites">Supprimer des favoris</string>
 </resources>
