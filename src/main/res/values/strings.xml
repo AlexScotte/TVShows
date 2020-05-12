@@ -2,4 +2,7 @@
     <string name="app_name">TVShows</string>
     <string name="toolbar_add_show">Ajouter une série</string>
     <string name="details_add_favorites">Ajouter aux favoris</string>
+    <string name="toolbar_seach_text">Rechercher ...</string>
+    <string name="my_shows_title">Mes favoris</string>
+    <string name="popular_shows_title">Séries populaires</string>
 </resources>

@@ -18,15 +18,29 @@ class LocalDataManager {
             newFav.name = show.name
             newFav.description = show.description
             newFav.imageUrl = show.imageUrl
+            realm.beginTransaction()
+            realm.copyToRealm(newFav)
+            realm.commitTransaction()
         }
     }
 
-    private fun getFavoritesShowsList():List<Show>{
+    fun removeShowFromFavorites(show:Show){
+
+        val showFavoriteToRemove = realm.where(LocalShowFavorite::class.java).equalTo("id", show.id).findFirst()
+        if (showFavoriteToRemove != null){
+
+            realm.beginTransaction()
+            showFavoriteToRemove.deleteFromRealm()
+            realm.commitTransaction()
+        }
+    }
+
+    fun getFavoritesShowsList():List<Show>{
 
         return realm.where(LocalShowFavorite::class.java).findAll().toList().map { localShowFavorite -> Show(localShowFavorite.id, localShowFavorite.name, localShowFavorite.description, localShowFavorite.imageUrl) }
     }
 
-    private fun isShowInFavorites(show: Show): Boolean {
+    fun isShowInFavorites(show: Show): Boolean {
 
         return realm.where(LocalShowFavorite::class.java).equalTo("id", show.id).count() > 0
     }

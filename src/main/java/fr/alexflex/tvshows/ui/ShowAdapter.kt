@@ -66,7 +66,6 @@ class ShowAdapter(delegate:Delegate) : RecyclerView.Adapter<ShowAdapter.ShowView
     inner class ShowViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView), View.OnClickListener {
 
         private val ui_title = rootView.title
-        private val ui_subtitle = rootView.subtitle
 
         init{
 
@@ -76,7 +75,6 @@ class ShowAdapter(delegate:Delegate) : RecyclerView.Adapter<ShowAdapter.ShowView
         fun fillItem(item: Show){
 
             ui_title.text = item.name
-
         }
 
         override fun onClick(v: View?) {

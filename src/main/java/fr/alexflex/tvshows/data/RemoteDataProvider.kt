@@ -48,7 +48,7 @@ class RemoteDataProvider(context:Context) {
                 val id = item.getInt("id")
                 val name = item.getString("name")
                 val description = item.getString("overview")
-                val imagePath = item.getString("backgdrop_path")
+                val imagePath = item.getString("backdrop_path")
                 showsList.add(Show(id, name, description, imageBaseUrl + imagePath))
             }
         }

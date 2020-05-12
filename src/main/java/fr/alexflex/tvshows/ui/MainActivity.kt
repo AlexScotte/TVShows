@@ -5,39 +5,46 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import fr.alexflex.tvshows.R
+import fr.alexflex.tvshows.data.Show
+import fr.alexflex.tvshows.data.ShowManager
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity(), ShowManager.Client, ShowAdapter.Delegate {
+
+    private lateinit var adapter: ShowAdapter
+    protected lateinit var showsManager: ShowManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
-        //ui_recyclerView.adapter = ShowAdapter()
-        //ui_recyclerView.layoutManager = LinearLayoutManager(this)
+        this.adapter = ShowAdapter(this)
+        this.showsManager = ShowManager(this)
+        ui_recyclerView.layoutManager = LinearLayoutManager(this)
+        ui_recyclerView.adapter = adapter
+
+        //List separator
+        ui_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    //ShowsManager.Client interface
+    override fun receiveShowList(showList: List<Show>){
 
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        adapter.reloadShowlist(showList)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    //ShowAdapter.Delegate interface
+    override fun touchedShow(show:Show, index:Int){
 
-        if(item != null){
-
-            when(item.itemId){
-
-                R.id.ui_settings -> displayAddShowActivity()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun displayAddShowActivity() {
-
-        val intent = Intent(this, PopularShowsActivity::class.java)
+        val intent = Intent(this, ShowDetailsActivity::class.java)
+        intent.putExtra("show", show)
         startActivity(intent)
     }
+
+
+
 }
